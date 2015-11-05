@@ -145,6 +145,7 @@ if (is_array($dhcpdconf)) {
 	list($pconfig['wins1'],$pconfig['wins2']) = $dhcpdconf['winsserver'];
 	list($pconfig['dns1'],$pconfig['dns2'],$pconfig['dns3'],$pconfig['dns4']) = $dhcpdconf['dnsserver'];
 	$pconfig['denyunknown'] = isset($dhcpdconf['denyunknown']);
+	$pconfig['nonak'] = isset($dhcpdconf['nonak']);
 	$pconfig['ddnsdomain'] = $dhcpdconf['ddnsdomain'];
 	$pconfig['ddnsdomainprimary'] = $dhcpdconf['ddnsdomainprimary'];
 	$pconfig['ddnsdomainkeyname'] = $dhcpdconf['ddnsdomainkeyname'];
@@ -449,6 +450,7 @@ if (isset($_POST['submit'])) {
 		$dhcpdconf['domain'] = $_POST['domain'];
 		$dhcpdconf['domainsearchlist'] = $_POST['domainsearchlist'];
 		$dhcpdconf['denyunknown'] = ($_POST['denyunknown']) ? true : false;
+		$dhcpdconf['nonak'] = ($_POST['nonak']) ? true : false;
 		$dhcpdconf['ddnsdomain'] = $_POST['ddnsdomain'];
 		$dhcpdconf['ddnsdomainprimary'] = $_POST['ddnsdomainprimary'];
 		$dhcpdconf['ddnsdomainkeyname'] = $_POST['ddnsdomainkeyname'];
@@ -743,6 +745,13 @@ include("head.inc");
 				<input name="denyunknown" id="denyunknown" type="checkbox" value="yes" <?php if ($pconfig['denyunknown']) echo "checked=\"checked\""; ?> />
 				<strong><?=gettext("Deny unknown clients");?></strong><br />
 				<?=gettext("If this is checked, only the clients defined below will get DHCP leases from this server. ");?></td>
+			</tr>
+			<tr>
+			<td width="22%" valign="top" class="vtable">&nbsp;</td>
+			<td width="78%" class="vtable">
+				<input name="nonak" id="nonak" type="checkbox" value="yes" <?php if ($pconfig['nonak']) echo "checked=\"checked\""; ?> />
+				<strong><?=gettext("Ignore denied clients");?></strong><br />
+				<?=gettext("If this is checked, denied clients will be ignored rather than rejected. ");?></td>
 			</tr>
 			<?php if (is_numeric($pool) || ($act == "newpool")): ?>
 				<tr>
